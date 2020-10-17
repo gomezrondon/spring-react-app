@@ -14,9 +14,14 @@ function App() {
 
     //load
     useEffect(()=>{ // a hook
-        fetchItem();
         const storedTodos = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY))
-        if(storedTodos) setTodos(storedTodos)
+        if (storedTodos) {
+            setTodos(storedTodos);
+            console.log("path 1")
+        } else {
+            console.log("path 2")
+            fetchItem();
+        }
     },[]) // todo lo que cambie activara el useEffect
 
     //save
@@ -42,7 +47,7 @@ function App() {
         let listTodos = await data.json()
         setTodos(listTodos)
         console.log(listTodos)
-        console.log(">>>>> Fetching data "+listTodos[0].length)
+        console.log(">>>>> Fetching data "+listTodos.length)
 
     }
 
