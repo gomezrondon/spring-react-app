@@ -14,6 +14,7 @@ function App() {
 
     //load
     useEffect(()=>{ // a hook
+        fetchItem();
         const storedTodos = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY))
         if(storedTodos) setTodos(storedTodos)
     },[]) // todo lo que cambie activara el useEffect
@@ -24,15 +25,28 @@ function App() {
     },[todos]) // todo lo que cambie activara el useEffect
 
 
+    function saveTodo(newItem) {
+        setTodos(prevState => {
+            return [...prevState, newItem ]
+        })
+    }
+
     function addItem(name) {
         todoNameRef.current.value = null
-
-        setTodos(prevState => {
-            return [...prevState, {id: uuidv4(), name: name, complete: false}]
-        })
-
-   //     console.log(todos)
+        const newItem = {id: uuidv4(), name: name, complete: false};
+        saveTodo(newItem);
     }
+
+    const fetchItem= async () => {
+        const data = await fetch('http://localhost:8080/todos');
+        let listTodos = await data.json()
+        setTodos(listTodos)
+        console.log(listTodos)
+        console.log(">>>>> Fetching data "+listTodos[0].length)
+
+    }
+
+
 
     function handleEnter(event) {
         const name = todoNameRef.current.value

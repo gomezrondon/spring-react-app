@@ -2,14 +2,17 @@
 
 GET http://localhost:8080/todos
 
+###
+GET http://localhost:8080/todos
+
 // search by id: "http://localhost:8080/todos/5f8af701b836bf4fb3818b1a"
 
 ### save one todo
 
-POST http://localhost:8080/todos
+PUT http://localhost:8080/todos
 Content-Type: application/json
 
 {
-  "content": "new post 55",
-  "value": "2020-10-17T07:55:00"
+  "name": "coca cola",
+  "completed": false
 }

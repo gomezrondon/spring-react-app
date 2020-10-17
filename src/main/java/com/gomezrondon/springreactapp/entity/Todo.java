@@ -8,19 +8,32 @@ import java.time.LocalDateTime;
 
 @Document
 public class Todo {
-
+//{id: uuidv4(), name: name, complete: false};
     @Id
     public String id;
-    public String content;
+    public String name;
+    public boolean complete;
     public LocalDateTime dateTime;
 
     public Todo() {
+        this.dateTime = LocalDateTime.now();
     }
 
-    public Todo(String id, String content, LocalDateTime dateTime) {
+    public Todo(String id, String name, boolean complete) {
         this.id = id;
-        this.content = content;
-        this.dateTime = dateTime;
+        this.name = name;
+        this.complete = complete;
+    }
+
+
+    @Override
+    public String toString() {
+        return "Todo{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", complete=" + complete +
+                ", dateTime=" + dateTime +
+                '}';
     }
 
     public String getId() {
@@ -31,12 +44,20 @@ public class Todo {
         this.id = id;
     }
 
-    public String getContent() {
-        return content;
+    public String getName() {
+        return name;
     }
 
-    public void setContent(String content) {
-        this.content = content;
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public boolean isComplete() {
+        return complete;
+    }
+
+    public void setComplete(boolean complete) {
+        this.complete = complete;
     }
 
     public LocalDateTime getDateTime() {
@@ -45,14 +66,5 @@ public class Todo {
 
     public void setDateTime(LocalDateTime dateTime) {
         this.dateTime = dateTime;
-    }
-
-    @Override
-    public String toString() {
-        return "Todo{" +
-                "id='" + id + '\'' +
-                ", content='" + content + '\'' +
-                ", dateTime=" + dateTime +
-                '}';
     }
 }
