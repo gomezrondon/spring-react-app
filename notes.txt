@@ -1,0 +1,3 @@
+#create project
+npx create-react-app front-end
+
