@@ -14,8 +14,9 @@ function App() {
 
     //load
     useEffect(()=>{ // a hook
+        clearLocalStorage();
         const storedTodos = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY))
-        if (storedTodos) {
+        if (storedTodos && storedTodos.length > 0) {
             setTodos(storedTodos);
             console.log("path 1")
         } else {
@@ -29,6 +30,14 @@ function App() {
         localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(todos))
     },[todos]) // todo lo que cambie activara el useEffect
 
+    const clearLocalStorage=()=>{
+        setInterval(function() {
+            localStorage.removeItem(LOCAL_STORAGE_KEY);
+            console.log("Clear local storage every 5 min")
+        }, 5 * ( 60 * 1000 ) ); // ( 60 * 1000 ) = 1 minute
+
+    }
+
 
     function saveTodo(newItem) {
         setTodos(prevState => {
@@ -40,6 +49,19 @@ function App() {
         todoNameRef.current.value = null
         const newItem = {id: uuidv4(), name: name, complete: false};
         saveTodo(newItem);
+        putItem(newItem)
+    }
+
+    const putItem = async (newItem)=> {
+        console.log(">>>>> putItem")
+        const bodyresp = await fetch('http://localhost:8080/todos', {
+            method: 'PUT',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(newItem)
+        });
+
+        let response = await bodyresp;
+        console.log(response)
     }
 
     const fetchItem= async () => {
@@ -51,7 +73,17 @@ function App() {
 
     }
 
+    const deleteItem = async (itemLIst)=> {
+        console.log(">>>>> delete list Items")
+        const bodyresp = await fetch('http://localhost:8080/todos', {
+            method: 'DELETE',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(itemLIst)
+        });
 
+        let response = await bodyresp;
+        console.log(response)
+    }
 
     function handleEnter(event) {
         const name = todoNameRef.current.value
@@ -78,6 +110,8 @@ function App() {
 
     function handleCleanUp() {
         const newTodos = todos.filter(todo => !todo.complete)
+        const completedTodos = todos.filter(todo => todo.complete)
+        deleteItem(completedTodos)
         setTodos(newTodos)
     }
 

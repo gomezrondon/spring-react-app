@@ -23,6 +23,7 @@ public class Todo {
         this.id = id;
         this.name = name;
         this.complete = complete;
+        this.dateTime = LocalDateTime.now();
     }
 
 

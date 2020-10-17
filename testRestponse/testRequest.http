@@ -16,3 +16,18 @@ Content-Type: application/json
   "name": "coca cola",
   "completed": false
 }
+
+
+### Delete "list" of todos
+
+DELETE http://localhost:8080/todos
+Content-Type: application/json
+
+[
+  {
+    "id": "5f8b648323f36641c4f8ae6f",
+    "name": "aprender React",
+    "complete": false,
+    "dateTime": "2020-10-17T15:39:15.131"
+  }
+]
