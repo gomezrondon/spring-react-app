@@ -1,33 +1,18 @@
 import React,{Component} from 'react';
 import './App.css';
+import FirstComponent, {SecondComponent} from "./components/FirstComponent";
 
-class FirstComponet extends React.Component {
-    render() {
-        return (
-            <div className="firstComponent">
-                First component
-            </div>
-        );
-    }
-}
 
-const SecondComponet = () =>{
 
-    return (
-        <div className="secondComponetn">
-            Second component
-        </div>
-    );
-
-}
 
 
 class App extends Component{
     render() {
         return (
             <div className="App">
-                <FirstComponet/>
-                <SecondComponet/>
+                hola mundo
+                <FirstComponent/>
+                <SecondComponent/>
             </div>
         );
     }
