@@ -1,19 +1,19 @@
 # spring-react-app
 A Demo Todo list created with React and Spring boot.
 
-### First build the backend
- ```
- gradle clean build
- ```
- 
- ### Build the Frontend
+### First Build the Frontend
  ```
 gradle deployFrontend
  ```
- 
-  ### Run Spring boot
+
+### Second build the backend
  ```
-gradle bootRun
+ gradle clean build
+ ```
+
+### Run Spring boot
+ ```
+java -jar build/libs/spring-react-app-0.0.1-SNAPSHOT.jar
  ```
  
  ### then go to the url:
