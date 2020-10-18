@@ -1,3 +1,25 @@
 #create project
 npx create-react-app front-end
 
+
+0) build react project from outside
+npm run build --prefix front-end
+
+# to deploy with spring boot
+1) execute
+npm run build
+
+2) copy the content inside ./front-end/build folder
+and copy it inside a folder (creat it if does not exist)
+./src/main/resources/public
+
+3) run spring boot normaly
+http://localhost:8080/
+
+-------------
+
+### points 0 to 2 can be replace with
+gradle deployFrontend
+
+it is the same as
+gradle cleanPublic fooExec createPublic deployFrontend

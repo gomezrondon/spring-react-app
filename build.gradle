@@ -25,3 +25,27 @@ dependencies {
 test {
 	useJUnitPlatform()
 }
+
+task cleanPublic(type: Delete) {
+	delete "${projectDir}/src/main/resources/public"
+	followSymlinks = true
+}
+
+task createPublic(){
+	dependsOn cleanPublic
+	mkdir "${projectDir}/src/main/resources/public"
+}
+
+task fooExec(type: Exec) {
+	dependsOn createPublic
+	workingDir "${projectDir}/front-end"
+
+	//on windows:
+	commandLine 'cmd', '/c', 'npm run build'
+}
+
+task deployFrontend(type: Copy) {
+	dependsOn fooExec
+	from "${projectDir}/front-end/build"
+	into "${projectDir}/src/main/resources/public"
+}
