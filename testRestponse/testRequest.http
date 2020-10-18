@@ -31,3 +31,7 @@ Content-Type: application/json
     "dateTime": "2020-10-17T15:39:15.131"
   }
 ]
+
+
+### borramos por id
+DELETE http://localhost:8080/todos/5f8c66a64496e2000efd9991

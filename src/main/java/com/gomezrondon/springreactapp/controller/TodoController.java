@@ -5,6 +5,7 @@ import com.gomezrondon.springreactapp.repository.TodosRepository;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -30,13 +31,19 @@ public class TodoController {
 
     @PutMapping("/todos")
     public void saveTodoItem(@RequestBody Todo newItem) {
-        System.out.println(">>> put: "+newItem.toString());
+   //     System.out.println(">>> put: "+newItem.toString());
         repository.save(newItem);
     }
 
     @DeleteMapping("/todos")
     public void deletByList(@RequestBody List<Todo> todoList) {
         repository.deleteAll(todoList);
+
+    }
+
+    @DeleteMapping("/todos/{id}")
+    public void deletByList(@PathVariable String id) {
+        repository.deleteById(id);
 
     }
 

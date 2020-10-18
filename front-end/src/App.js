@@ -2,7 +2,7 @@ import React, {Component, useEffect, useRef, useState} from 'react';
 import './App.css';
 import TodoList, {SecondComponent} from "./components/TodoList";
 import { v4 as uuidv4 } from 'uuid';
-
+import axios from 'axios';
 
 const LOCAL_STORAGE_KEY = 'todoApp.todos'
 
@@ -21,7 +21,7 @@ function App() {
             console.log("path 1")
         } else {
             console.log("path 2")
-            fetchItem();
+            findAllTodos();
         }
     },[]) // todo lo que cambie activara el useEffect
 
@@ -49,40 +49,37 @@ function App() {
         todoNameRef.current.value = null
         const newItem = {id: uuidv4(), name: name, complete: false};
         saveTodo(newItem);
-        putItem(newItem)
+        saveAllTodos(newItem)
     }
 
-    const putItem = async (newItem)=> {
-        console.log(">>>>> putItem")
-        const bodyresp = await fetch('http://localhost:8080/todos', {
-            method: 'PUT',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify(newItem)
-        });
-
-        let response = await bodyresp;
-        console.log(response)
+    const saveAllTodos = async (newItem)=> {
+        console.log(">>>>> saveAllTodos")
+        axios.put('http://localhost:8080/todos', newItem)
+            .then(response => {
+                console.log("items Saved Successfully!");
+            });
     }
 
-    const fetchItem= async () => {
-        const data = await fetch('http://localhost:8080/todos');
-        let listTodos = await data.json()
-        setTodos(listTodos)
-        console.log(listTodos)
-        console.log(">>>>> Fetching data "+listTodos.length)
-
+    const findAllTodos= () => {
+        axios.get('http://localhost:8080/todos')
+            .then(response => response.data)
+            .then(data =>  {
+                setTodos(data)
+/*                console.log( data)
+                console.log(">>>>> Fetching data "+ data.length)*/
+            });
     }
 
     const deleteItem = async (itemLIst)=> {
         console.log(">>>>> delete list Items")
-        const bodyresp = await fetch('http://localhost:8080/todos', {
-            method: 'DELETE',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify(itemLIst)
-        });
-
-        let response = await bodyresp;
-        console.log(response)
+        itemLIst.forEach(id => {
+            axios.delete('http://localhost:8080/todos/'+id)
+                .then(response => {
+                    if (response != null) {
+                        console.log("items Deleted Successfully!");
+                    }
+                });
+        })
     }
 
     function handleEnter(event) {
@@ -110,7 +107,7 @@ function App() {
 
     function handleCleanUp() {
         const newTodos = todos.filter(todo => !todo.complete)
-        const completedTodos = todos.filter(todo => todo.complete)
+        const completedTodos = todos.filter(todo => todo.complete).map(todo => todo.id)
         deleteItem(completedTodos)
         setTodos(newTodos)
     }

@@ -1,6 +1,7 @@
 #create project
 npx create-react-app front-end
-
+npm --save install axios
+-----------------------------------
 
 0) build react project from outside
 npm run build --prefix front-end
@@ -23,3 +24,4 @@ gradle deployFrontend
 
 it is the same as
 gradle cleanPublic fooExec createPublic deployFrontend
+
